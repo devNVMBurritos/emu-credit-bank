@@ -7,7 +7,7 @@ var UserSchema = new mongoose.Schema({
 		lowercase: true,
 		unique: [true,'username is already taken'],
 		required: [true, 'can\'t be blank'],
-		match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
+		match: [/^[a-zA-Z0-9 ]+$/, 'is invalid'],
 		index: true
 	},
 	email: {

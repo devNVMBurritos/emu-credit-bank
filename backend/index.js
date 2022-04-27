@@ -12,8 +12,9 @@ require('./models/user/user');
 
 // App setup
 dotenv.config();
-
 const app = express();
+// Cache externally fetched information for future invocations
+
 var corsOptions = { origin: process.env.CorsOrigins?process.env.CorsOrigins.split(','):process.env.CorsOrigin };
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
@@ -23,6 +24,7 @@ mongoose.connect(process.env.MongoURI);
 
 // Routes
 const routes = require('./routes.js');
+const { env } = require('process');
 
 routes.forEach((route) => {
 	const { method, path, middleware, handler } = route;

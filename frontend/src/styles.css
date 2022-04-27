@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfWf4G28xPRWwt8gtSQrag6d1OlUhWCmmUx9TE6F827VZebSvnlshWRoswANzaDAIJWfQ&usqp=CAU");
+}
