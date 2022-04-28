@@ -9,7 +9,7 @@ const cors = require('cors');
 
 // Models
 require('./models/user/user');
-
+require('./models/user/connections/requests');
 // App setup
 dotenv.config();
 const app = express();
@@ -24,7 +24,6 @@ mongoose.connect(process.env.MongoURI);
 
 // Routes
 const routes = require('./routes.js');
-const { env } = require('process');
 
 routes.forEach((route) => {
 	const { method, path, middleware, handler } = route;

@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NgOneTapService } from 'ng-google-one-tap';
+import { AuthenticationService } from '../_services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -7,10 +9,13 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-
-  constructor( ) { }
+  constructor(private onetap: NgOneTapService, private authService: AuthenticationService ) { }
 
   ngOnInit(): void {
-
+    this.onetap.tapInitialize();
+    this.onetap.oneTapCredentialResponse.subscribe( res => {
+      this.authService.OneTapSingIn(res.credential);
+    });
   }
+
 } 

@@ -1,0 +1,14 @@
+<div class="col-lg-8 mx-auto bg-brown rounded connection-window">
+  <form [formGroup]="UserSearch" class="col-lg-10 mx-auto mt-3 py-3">
+    <label>Search users for business connections:</label>
+    <div id="myDropdown" class="dropdown-content">
+      <input formControlName="username" id="username" type="text" class="form-control" (keydown)="SearchUser()">
+      <div *ngIf="users.length > 0 && !Selected" class="dropdown-menu">
+        <a *ngFor="let user of users" class="dropdown-item col-lg-12" (click)="SelectUser(user)">{{user.username}} ({{user.email}})</a>
+      </div>
+      <div *ngIf="Selected" class="py-3">
+        <button type="button" class="btn btn-light">Request Contact</button>
+      </div>
+    </div>
+  </form>
+</div> 

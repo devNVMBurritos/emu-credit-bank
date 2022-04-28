@@ -1,0 +1,4 @@
+.connection-window:hover .dropdown-menu {
+  display: block;
+  text-align: center;
+}

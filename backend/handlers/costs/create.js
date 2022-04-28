@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 module.exports = async (req, res) => {
-	console.log('asd');
 	// Google login
 	const assertion = req.header('X-Goog-IAP-JWT-Assertion');
 	if (assertion) {
@@ -25,13 +24,12 @@ module.exports = async (req, res) => {
 						if (!newUser) {
 							throw new Error('User creation error');
 						}
-						newUser.generateToken();
+
 						newUser.save();
 						res.send(JSON.stringify(newUser));
 					});
 				}
-				user.generateToken();
-				user.save();
+
 				res.send(JSON.stringify(user));
 			})
 			.catch( err => {
@@ -42,9 +40,9 @@ module.exports = async (req, res) => {
 	}
 
 	// Normal login
-	if (!req.body.email) {
+	if (!req.body.username) {
 		res.status(400);
-		res.send(JSON.stringify('email was not provided!'));
+		res.send(JSON.stringify('username was not provided!'));
 		return;
 	}
 
@@ -53,7 +51,7 @@ module.exports = async (req, res) => {
 		res.send(JSON.stringify('password was not provided!'));
 	}
 
-	User.findOne({ email : req.body.email	})
+	User.findOne({ username : req.body.username	})
 		.then((user) => {
 			if (!user ) {
 				let error = new Error('User was not found!');
