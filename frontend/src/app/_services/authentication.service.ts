@@ -10,7 +10,7 @@ import { User } from '../_models/user';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private _user = new BehaviorSubject<User>(new User('',''));
+  private _user = new BehaviorSubject<User>(new User('','',''));
   private _logedIn = false;
 
   constructor(private http: HttpClient, private router: Router) {

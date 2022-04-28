@@ -17,4 +17,12 @@ export class UserService {
       { headers: { Authorization: 'Bearer ' + loginToken }}
     )
   }
+
+  public SendRequest(requested: string, loginToken: string) {
+    return this.http.post<string>(
+      environment.APIURI + '/user/connection/request',
+      { requested:  requested },
+      { headers: { Authorization: 'Bearer ' + loginToken }}
+    )
+  }
 }

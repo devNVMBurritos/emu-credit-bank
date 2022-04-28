@@ -9,7 +9,7 @@ const cors = require('cors');
 
 // Models
 require('./models/user/user');
-require('./models/user/connections/requests');
+require('./models/user/connection/requests');
 // App setup
 dotenv.config();
 const app = express();

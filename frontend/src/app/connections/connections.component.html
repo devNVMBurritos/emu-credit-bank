@@ -7,7 +7,7 @@
         <a *ngFor="let user of users" class="dropdown-item col-lg-12" (click)="SelectUser(user)">{{user.username}} ({{user.email}})</a>
       </div>
       <div *ngIf="Selected" class="py-3">
-        <button type="button" class="btn btn-light">Request Contact</button>
+        <button type="button" class="btn btn-light" (click)="RequestContact()">Request Contact</button>
       </div>
     </div>
   </form>

@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 module.exports = async (req, res) => {
-	console.log('asd');
 	// Google login
 	const assertion = req.header('X-Goog-IAP-JWT-Assertion');
 	if (assertion) {

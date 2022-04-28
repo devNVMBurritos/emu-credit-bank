@@ -6,7 +6,7 @@ const login = require('./handlers/user/login');
 const register = require('./handlers/user/register');
 const search = require('./handlers/user/search');
 
-const request = require('./handlers/user/connections/request');
+const request = require('./handlers/user/connection/request');
 
 module.exports =  [
 	//#region User paths

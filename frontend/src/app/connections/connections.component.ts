@@ -45,4 +45,8 @@ export class ConnectionsComponent implements OnInit {
     this.UserSearch.controls.username.setValue(user.username);
     this.SelectedUser = user
   }
+
+  public RequestContact() {
+    this.userService.SendRequest(this.SelectedUser._id, this.authService.CurrentUser().email);
+   }
 }
