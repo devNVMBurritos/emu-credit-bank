@@ -14,6 +14,9 @@ export class ConnectionsComponent implements OnInit {
   public Selected = false;
   public UserSearch: FormGroup;
   public users: User[] = [];
+  public RequestedList: User[] = [];
+  public RequestList: User[] = [];
+  public FriendList: User[] = [];
 
 
   constructor(
@@ -24,6 +27,22 @@ export class ConnectionsComponent implements OnInit {
     this.UserSearch = formBuilder.group({
       username: ['', [Validators.required]]
     });
+    this.RequestList = userService.RequestList.value;
+    this.RequestedList = userService.RequestedList.value;
+    this.FriendList = userService.FriendList.value;
+
+    userService.RequestList.subscribe( list => {
+      this.RequestList = list;
+    })
+    userService.FriendList.subscribe( list => {
+      this.FriendList = list;
+    })
+    userService.RequestedList.subscribe( list => {
+      this.RequestedList = list
+    })
+  }
+  public User() {
+    return this.authService.CurrentUser();
   }
 
   ngOnInit(): void { }
@@ -47,6 +66,16 @@ export class ConnectionsComponent implements OnInit {
   }
 
   public RequestContact() {
-    this.userService.SendRequest(this.SelectedUser._id, this.authService.CurrentUser().email);
+    this.userService.SendRequest(
+      this.SelectedUser._id,
+      this.authService.CurrentUser().loginToken || ''
+    ).subscribe( data =>{ this.userService.GetRequestLists(); });
+   }
+
+   public AcceptRequest(user: User) {
+    this.userService.SendRequest(
+      user._id,
+      this.authService.CurrentUser().loginToken || ''
+    ).subscribe( data =>{ this.userService.GetRequestLists(); } );
    }
 }

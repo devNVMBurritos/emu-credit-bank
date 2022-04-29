@@ -10,6 +10,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { HomeComponent } from './home/home.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CostsComponent } from './costs/costs.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginComponent,
     OverviewComponent,
     HomeComponent,
-    ConnectionsComponent
+    ConnectionsComponent,
+    CostsComponent
   ],
   imports: [
     BrowserModule,

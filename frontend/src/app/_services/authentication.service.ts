@@ -15,7 +15,6 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient, private router: Router) {
     const userString = JSON.parse((localStorage.getItem('user') || '{}'));
-    console.log(userString);
     if (userString.loginToken) {
       this._user.next(userString);
       this._logedIn = true;
@@ -36,7 +35,6 @@ export class AuthenticationService {
   }
 
   public SingOut() {
-    console.log('singed out');
     localStorage.removeItem('user');
     this._logedIn = false;
   }

@@ -2,16 +2,19 @@ const mongoose = require('mongoose');
 const Requests = mongoose.model('request');
 
 module.exports = async (req, res) => {
-	Requests.findOne({ confirmed: true }).or([
-		{ requester: res.local.user },
-		{ requested: res.loca.user }
-	]).populate('requester').populate('requested')
-		.select(
+	Requests.find().populate('requester').populate('requested')
+		.then( data => {
+			res.send(JSON.stringify(data));
+		});/* .or([
+		{ requester: res.locals.user },
+		{ requested: res.locals.user }
+	])
+		.select([
 			'requester.username',
 			'requester.email',
 			'requested.username',
 			'requested.email'
-		)
+		])
 		.then( requests => {
 			if (!requests) {
 				throw new Error('Couldn\'t find request');
@@ -19,7 +22,7 @@ module.exports = async (req, res) => {
 
 			let conncetionList = [];
 			requests.forEach( conncetion => {
-				if (conncetion.requested.username === res.local.user.username) {
+				if (conncetion.requested.username === res.locals.user.username) {
 					conncetionList.push(conncetion.requester);
 				} else {
 					conncetionList.push(conncetion.requested);
@@ -30,5 +33,5 @@ module.exports = async (req, res) => {
 		}).catch( err => {
 			res.status(400);
 			res.send(JSON.stringify(err));
-		});
+		});*/
 };

@@ -2,16 +2,18 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 var RequestSchema = new mongoose.Schema({
-	requesterId: {
+	requester: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: User
+		ref: User,
+		unique: false
 	},
-	requestedId: {
+	requested: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: User
+		ref: User,
+		unique: false
 	},
-	confimed: Boolean,
+	confirmed: Boolean,
 });
-RequestSchema.index({ requesterId: 1, requestedId: 1 }, { unique: true });
+RequestSchema.index({ requesterId: 0, requestedId: 0 }, { unique: true });
 
 mongoose.model('request', RequestSchema);

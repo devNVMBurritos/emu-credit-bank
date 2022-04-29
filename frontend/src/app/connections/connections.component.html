@@ -1,4 +1,4 @@
-<div class="col-lg-8 mx-auto bg-brown rounded connection-window">
+<div class="col-lg-8 mx-auto bg-brown rounded connection-window my-3">
   <form [formGroup]="UserSearch" class="col-lg-10 mx-auto mt-3 py-3">
     <label>Search users for business connections:</label>
     <div id="myDropdown" class="dropdown-content">
@@ -12,3 +12,29 @@
     </div>
   </form>
 </div> 
+<div class="col-lg-8 mx-auto bg-brown rounded connection-window p-3">
+  <div>
+    <label class="me-3">Pending requests: </label>
+    <label *ngIf="RequestedList.length == 0">None</label>
+    <div *ngFor="let requested of RequestedList">
+      <label class="mx-3"> Request From: {{requested.username}}</label>
+    </div>
+  </div>
+  <div>
+    <label class="me-3">Unaccepted requests:</label>
+    <label *ngIf="RequestList.length == 0">None</label>
+    <div *ngFor="let request of RequestList">
+      <label class="mx-3"> Request sent to: {{request.username}}</label>
+      <button type="button" class="btn btn-light" (click)="AcceptRequest(request)">Accept</button>
+    </div>
+  </div>
+</div>
+<div class="col-lg-8 mx-auto bg-brown rounded connection-window p-3">
+  <div>
+    <label class="me-3">Current contacts: </label>
+    <label *ngIf="FriendList.length == 0">None</label>
+    <div *ngFor="let friend of FriendList">
+      <label class="mx-3">{{friend.username}} ({{friend.email}})</label> <label *ngIf="friend.email == User().email">You must be lonely...</label>
+    </div>
+  </div>
+</div>

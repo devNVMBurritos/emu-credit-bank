@@ -7,6 +7,7 @@ const register = require('./handlers/user/register');
 const search = require('./handlers/user/search');
 
 const request = require('./handlers/user/connection/request');
+const list = require('./handlers/user/connection/list');
 
 module.exports =  [
 	//#region User paths
@@ -28,13 +29,19 @@ module.exports =  [
 		middleware: [isAuthenticated],
 		handler: search,
 	},
-	//#region Connections
+	//#endregion
+	//@region Connection Paths
 	{
 		method: 'post',
 		path: '/user/connection/request',
 		middleware: [isAuthenticated],
 		handler: request,
 	},
-	//#endregion
+	{
+		method: 'post',
+		path: '/user/connection/list',
+		middleware: [isAuthenticated],
+		handler: list,
+	},
 	//#endregion
 ];
