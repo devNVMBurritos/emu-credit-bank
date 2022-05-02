@@ -23,11 +23,15 @@ export class UserService {
       {},
       { headers: { Authorization: 'Bearer ' +  this.authService.CurrentUser().loginToken || ''}}
     ).subscribe( contactRequests => {
+      console.log(contactRequests);
       if (!contactRequests) {
         return;
       }
       this.RequestList.next([]);
       this.RequestedList.next([]);
+      
+      const tempRequestList = []
+      const tempRequestedList = [];
       
       contactRequests.forEach( request => {
         if (request.requested._id == this.authService.CurrentUser()._id) {

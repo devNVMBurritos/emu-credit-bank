@@ -1,76 +1,29 @@
-const {OAuth2Client} = require('google-auth-library');
-
 const mongoose = require('mongoose');
-const User = mongoose.model('user');
+const Cost = mongoose.model('cost');
 
 module.exports = async (req, res) => {
-	// Google login
-	const assertion = req.header('X-Goog-IAP-JWT-Assertion');
-	if (assertion) {
-		const client = new OAuth2Client();
-		const ticket = await client.verifyIdToken({
-			idToken: assertion,
-			audience: '823707024933-s1forcsoj41oi4vfu71n6cpk6fmi0pvj.apps.googleusercontent.com',
-		});
-		const payload = ticket.getPayload();
-		User.findOne({email: payload.email})
-			.then( user => {
-				if (!user) {
-					return User.create({
-						username: payload.name,
-						email: payload.email,
-						password: Math.random().toString(36).slice(-8)
-					}).then( newUser => {
-						if (!newUser) {
-							throw new Error('User creation error');
-						}
-
-						newUser.save();
-						res.send(JSON.stringify(newUser));
-					});
-				}
-
-				res.send(JSON.stringify(user));
-			})
-			.catch( err => {
-				res.send(JSON.stringify(err.message));
-			});
-
-		return;
-	}
-
-	// Normal login
-	if (!req.body.username) {
+	if (!req.body.costId) {
 		res.status(400);
-		res.send(JSON.stringify('username was not provided!'));
-		return;
+		res.send('CostId is not set');
 	}
 
-	if (!req.body.password) {
-		res.status(400);
-		res.send(JSON.stringify('password was not provided!'));
-	}
-
-	User.findOne({ username : req.body.username	})
-		.then((user) => {
-			if (!user ) {
-				let error = new Error('User was not found!');
-				error.responseStatus = 404;
-				throw error;
-			}
-			if (!user.validPassword(req.body.password)) {
-				let error = new Error('Invalid Password!');
-				error.responseStatus = 400;
-				throw error;
+	Cost.findById(req.body.costId)
+		.then( cost => {
+			if (!cost) {
+				throw new Error('Cost Not Found!');
 			}
 
-			user.generateToken();
-			user.save();
-
-			res.send(JSON.stringify(user));
+			if (cost.confirmedBy.findIndex(x => x == res.locals.user._id) == -1)
+				cost.confirmedBy.push(res.locals.user._id);
+			
+			if (cost.confirmedBy == cost.payedFor)
+				cost.confirmed = true;
+			
+			cost.save();
+			res.send(JSON.stringify('Cost is updated!'));
 		})
-		.catch((err) => {
-			res.status(err.responseStatus);
+		.catch( err => {
+			res.status(400);
 			res.send(JSON.stringify(err.message));
 		});
 };
