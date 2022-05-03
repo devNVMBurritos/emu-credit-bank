@@ -1,5 +1,5 @@
 
-<form class="px-4 col-lg-8 mx-auto bg-brown">
+<form [formGroup]="FormGroup" class="px-4 col-lg-8 mx-auto bg-brown">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Costs By</label>
     <div class="row">
@@ -11,15 +11,17 @@
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Cost</label>
-    <input type="number" class="form-control" id="exampleInputPassword1">
+    <input formControlName="cost" type="number" class="form-control" id="exampleInputPassword1">
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Payed By</label>
-    <select class="form-select" aria-label="Default select example">
-      <option *ngFor="let user of FriendListPlusYou" >{{user.username}} ({{user.email}})</option>
+    <select formControlName="payedBy" class="form-select" (ngModel)="FriendListPlusYou" >
+      <option *ngFor="let user of FriendListPlusYou" [ngValue]="user" >
+        {{user.username}} ({{user.email}})
+      </option>
     </select>
   </div>
   <div class="mx-auto col-sm-8 col-lg-5 py-3">
-    <button type="submit" class="col-12 btn btn-primary mb-3">Create Cost</button>
+    <button type="submit" class="col-12 btn btn-primary mb-3" (click)="CreateCosts()" >Create Cost</button>
   </div>
 </form>

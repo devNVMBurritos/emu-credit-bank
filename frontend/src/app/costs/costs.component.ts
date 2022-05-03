@@ -1,8 +1,9 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { EmailValidator } from '@angular/forms';
+import { EmailValidator, FormBuilder, FormGroup } from '@angular/forms';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
+import { CostService } from '../_services/cost.service';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -13,8 +14,19 @@ import { UserService } from '../_services/user.service';
 export class CostsComponent implements OnInit {
   public FriendListPlusYou: User[] = []
   private _costUserList: User[] = [];
+  public FormGroup: FormGroup;
 
-  constructor(private userService: UserService, private authService: AuthenticationService) {
+  constructor(
+    private userService: UserService,
+    private authService: AuthenticationService,
+    private costService: CostService,
+    private formBuilder: FormBuilder
+  ) {
+    this.FormGroup = formBuilder.group({
+      payedBy: [''],
+      cost: ['']
+    });
+
     userService.FriendList.subscribe( data => {
       //data's value changes in the middle of subscribe event which is fucking cursed so I decided to fix it like this
       const userEmail = authService.CurrentUser().email;
@@ -41,11 +53,24 @@ export class CostsComponent implements OnInit {
         this._costUserList.splice(index, 1);
       }
     }
-    console.log(this._costUserList);
   }
 
   public CreateCosts() {
-    
+    console.log(this.FormGroup.controls.payedBy.value);
+    if (this.FormGroup.controls.payedBy.value)
+    this.costService.CreateCost(
+      this._costUserList, 
+      this.FormGroup.controls.payedBy.value, 
+      this.FormGroup.controls.cost.value,
+      this.authService.CurrentUser().loginToken || ''
+      ).subscribe( 
+        response => {
+          console.log('res', response);
+        },
+        error => {
+          console.log('err', error);
+        }
+      ); 
   }
 
   ngOnInit(): void {

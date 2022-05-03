@@ -9,6 +9,8 @@ const search = require('./handlers/user/search');
 const request = require('./handlers/user/connection/request');
 const list = require('./handlers/user/connection/list');
 
+const createCost = require('./handlers/costs/create');
+
 module.exports =  [
 	//#region User paths
 	{
@@ -30,7 +32,7 @@ module.exports =  [
 		handler: search,
 	},
 	//#endregion
-	//@region Connection Paths
+	//#region Connection Paths
 	{
 		method: 'post',
 		path: '/user/connection/request',
@@ -42,6 +44,14 @@ module.exports =  [
 		path: '/user/connection/list',
 		middleware: [isAuthenticated],
 		handler: list,
+	},
+	//#endregion
+	//#region Connection Paths
+	{
+		method: 'post',
+		path: '/user/cost/create',
+		middleware: [isAuthenticated],
+		handler: createCost,
 	},
 	//#endregion
 ];

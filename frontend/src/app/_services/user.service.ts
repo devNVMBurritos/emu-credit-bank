@@ -23,7 +23,6 @@ export class UserService {
       {},
       { headers: { Authorization: 'Bearer ' +  this.authService.CurrentUser().loginToken || ''}}
     ).subscribe( contactRequests => {
-      console.log(contactRequests);
       if (!contactRequests) {
         return;
       }

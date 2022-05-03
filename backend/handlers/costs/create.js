@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Cost = mongoose.model('cost');
 
 module.exports = async (req, res) => {
-	if (!req.body.costsFor) {
+	if (!req.body.payedFor) {
 		res.status(400);
 		res.send(JSON.stringify('costsFor field missing!'));
 		
@@ -16,11 +16,19 @@ module.exports = async (req, res) => {
 		return;
 	}
 
+	if (!req.body.cost) {
+		res.status(400);
+		res.send(JSON.stringify('Was it free? lol'));
+		
+		return;
+	}
+
 	Cost.create({
-		costsFor: req.body.costsFor,
-		payledBy: req.body.payedBy,
+		payedFor: req.body.payedFor,
+		payedBy: req.body.payedBy._id,
 		confimedBy: [],
-		confirmed: false
+		confirmed: false,
+		cost: req.body.cost
 	}).then( cost => {
 		if (!cost) {
 			throw new Error('Could not crate cost');
