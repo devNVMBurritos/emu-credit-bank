@@ -20,7 +20,7 @@ export class CostService {
 
   public CreateCost(payedFor: User[], payedBy: User, cost: number, loginToken: string) {
     return this.http.post<string>(
-      environment.APIURI + '/user/cost/create', 
+      environment.APIURI + '/cost/create', 
       { 
         payedFor: payedFor,
         payedBy: payedBy,
@@ -31,7 +31,7 @@ export class CostService {
 
   public GetUnconfirmedCosts(loginToken: string) {
     return this.http.post<any>(
-      environment.APIURI + '/user/cost/create', 
+      environment.APIURI + '/cost/create', 
       { },
       { headers: { Authorization: 'Bearer ' + loginToken}} )
   }

@@ -11,6 +11,8 @@ const list = require('./handlers/user/connection/list');
 
 const createCost = require('./handlers/costs/create');
 
+const getbalance = require('./handlers/costs/balance/get');
+
 module.exports =  [
 	//#region User paths
 	{
@@ -46,12 +48,20 @@ module.exports =  [
 		handler: list,
 	},
 	//#endregion
-	//#region Connection Paths
+	//#region Cost Paths
 	{
 		method: 'post',
-		path: '/user/cost/create',
+		path: '/cost/create',
 		middleware: [isAuthenticated],
 		handler: createCost,
+	},
+	//#endregion
+	//#region Balance Paths
+	{
+		method: 'post',
+		path: '/cost/balance/get',
+		middleware: [isAuthenticated],
+		handler: getbalance,
 	},
 	//#endregion
 ];

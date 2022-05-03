@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
 	Cost.find().or([
 		{ payedFor: res.locals.user._id },
 		{ payedBy: res.locals.user._id }
-	]).then( costs => {
+	]).populate('payedBy').then( costs => {
 		if (!costs) {
 			res.status(404);
 			res.send(JSON.stringify('No costs were found'));
@@ -16,10 +16,12 @@ module.exports = async (req, res) => {
 
 		costs.forEach( cost => {
 			if (cost.payedFor.findIndex(x => x == res.locals.user._id) == -1)
-				balance -= cost.cost;
+				balance -= cost.cost / cost.payedFor.length || 1;
 
-			if (cost.payedBy == res.locals.user._id)
-				balance += res.locals.user._id;
+			if (cost.payedBy._id.toString() == res.locals.user._id.toString()) {
+				
+				balance += cost.cost;
+			}
 		});
 
 		res.send(JSON.stringify(balance));
