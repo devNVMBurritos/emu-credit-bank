@@ -15,6 +15,7 @@ export class CostsComponent implements OnInit {
   public FriendListPlusYou: User[] = []
   private _costUserList: User[] = [];
   public FormGroup: FormGroup;
+  public UnsubmittedCostList: { _id: string, payedFor: User[], payedBy: User, cost: number}[] = [];
 
   constructor(
     private userService: UserService,
@@ -42,6 +43,11 @@ export class CostsComponent implements OnInit {
 
       this.FriendListPlusYou = tempList;
     });
+
+    costService.GetUnconfirmedCosts(authService.CurrentUser().loginToken || '')
+      .subscribe( costs => {
+        this.UnsubmittedCostList = costs;
+      })
   }
 
   public OnCheckboxChange(e: any, user: User) {
@@ -71,6 +77,15 @@ export class CostsComponent implements OnInit {
           console.log('err', error);
         }
       ); 
+  }
+  public ConfirmCost(costId: string) {
+    this.costService.ConfirmCost(this.authService.CurrentUser().loginToken || '', costId)
+      .subscribe( response => {
+        console.log(response);
+      },
+      err => {
+        console.log(err);
+      })
   }
 
   ngOnInit(): void {

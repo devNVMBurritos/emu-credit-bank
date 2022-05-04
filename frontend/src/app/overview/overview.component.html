@@ -12,6 +12,18 @@
     </div>
   </div>
 </nav>
-<div class="bg-brown">
-  <label>Balance: {{Balance}}</label>
+<div class="bg-brown py-2 my-3 mx-3 mx-auto col-lg-8">
+  <label>Credit owned: {{Balance}}</label>
+</div>
+<div class="bg-brown py-2 my-3 mx-3 mx-auto col-lg-8">
+  <label>Mothefuckers who own you money:</label>
+  <div>
+    <label *ngFor="let user of DebitorList" class="col-lg-8 mx-auto">{{user.user.username}} owns me: {{user.debt}}</label>
+  </div>
+</div>
+<div class="bg-brown py-2 my-3 mx-3 mx-auto col-lg-8">
+  <label>People we don't talk about until next paycheck:</label>
+  <div>
+    <label *ngFor="let user of CreditorList">I own {{user.user.username}} this much: {{user.debt}}</label>
+  </div>
 </div>

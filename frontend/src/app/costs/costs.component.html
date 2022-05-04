@@ -25,3 +25,6 @@
     <button type="submit" class="col-12 btn btn-primary mb-3" (click)="CreateCosts()" >Create Cost</button>
   </div>
 </form>
+<div *ngFor="let cost of UnsubmittedCostList" class="bg-brown mx-auto col-lg-8 my-3 col-lg-5 py-3">
+  <label> Cost:{{cost.cost / cost.payedFor.length}} (originally: {{cost.cost}}) Payed By: {{cost.payedBy.username}}</label> <button class="btn btn-primary" type="submit" (click)="ConfirmCost(cost._id)">Confirm</button>
+</div>

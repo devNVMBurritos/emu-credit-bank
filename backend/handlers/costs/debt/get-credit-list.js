@@ -2,44 +2,48 @@ const mongoose = require('mongoose');
 const Cost = mongoose.model('cost');
 
 module.exports = async (req, res) => {
-	Cost.find().or([
+	Cost.find({confirmed: true}).or([
 		{ payedFor: res.locals.user._id },
 		{ payedBy: res.locals.user._id }
-	]).populate('payedBy').then( costs => {
-		if (!costs) {
-			res.status(404);
-			res.send(JSON.stringify('No costs were found'));
+	]).populate('payedBy', ['email','username','_id'])
+		.populate('payedFor', ['email','username','_id'])
+		.then( costs => {
+			if (!costs) {
+				res.status(404);
+				res.send(JSON.stringify('No costs were found'));
 
-			return;
-		}
-		let creditList = [];
-
-		costs.forEach( cost => {
-			// Ha Én fizetek
-			if (cost.payedBy._id.toSting() == res.locals.user._id.toSting()) {
-				// Minden embernek kevesebbel tartozom
-				cost.payedFor.forEach( debptor => {
-					const id = debptor._id.toSting();
-					creditList[id].user = debptor;
-					if (creditList[id].debt) {
-						creditList[id].debt -= cost.cost / cost.payedFor.length;
-					} else {
-						creditList[id].debt = cost.cost / cost.payedFor.length;
-					}
-				});
-			} else {
-				// Ha nem én fizettem
-				// Minden embernek többel tartozom
-				const id = res.locals.user._id.toSting();
-				if (creditList[id] && creditList[id].user) {
-					creditList[id].debt += cost.cost / cost.payedFor.length;
-				} else {
-					creditList[id].user = cost.payedBy;
-					creditList[id].debt = cost.cost / cost.payedFor.length;
-				}
+				return;
 			}
-		});
+			const ownId = res.locals.user._id.toString();
+			let creditList = {};
 
-		res.send(JSON.stringify(creditList));
-	});
+			costs.forEach( cost => {
+				// Ha én fizettem
+				if (cost.payedBy._id.toString() == ownId) {
+					// ők az adósok. (nekem - nekik az adósságom)
+					cost.payedFor.forEach( user => {
+						const userId = user._id.toString();
+						if (!creditList[userId] && creditList[userId].debt == undefined)
+						{
+							creditList[userId] = {};
+							creditList[userId].user = user;
+							creditList[userId].debt = 0;
+						}
+
+						creditList[userId].debt -= cost.cost / cost.payedBy.length;
+					});
+				} else {
+					// aki kifizette annak nagyobb az adósággom
+					const userId = cost.payedBy._id.toString();
+					if (!creditList[userId] && creditList[userId].debt == undefined)
+					{
+						creditList[userId] = {};
+						creditList[userId].user = cost.payedBy;
+						creditList[userId].debt = 0;
+					}
+				}
+				
+			});
+			res.send(JSON.stringify(creditList));
+		});
 };

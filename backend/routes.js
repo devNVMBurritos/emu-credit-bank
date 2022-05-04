@@ -10,8 +10,11 @@ const request = require('./handlers/user/connection/request');
 const list = require('./handlers/user/connection/list');
 
 const createCost = require('./handlers/costs/create');
+const getUnconfirmedCost = require('./handlers/costs/get-unconfirmed');
+const confirm = require('./handlers/costs/confirm');
 
 const getbalance = require('./handlers/costs/balance/get');
+const getCreditList = require('./handlers/costs/debt/get-credit-list');
 
 module.exports =  [
 	//#region User paths
@@ -55,6 +58,18 @@ module.exports =  [
 		middleware: [isAuthenticated],
 		handler: createCost,
 	},
+	{
+		method: 'post',
+		path: '/cost/get-unconfirmed',
+		middleware: [isAuthenticated],
+		handler: getUnconfirmedCost,
+	},
+	{
+		method: 'post',
+		path: '/cost/confirm',
+		middleware: [isAuthenticated],
+		handler: confirm,
+	},
 	//#endregion
 	//#region Balance Paths
 	{
@@ -62,6 +77,12 @@ module.exports =  [
 		path: '/cost/balance/get',
 		middleware: [isAuthenticated],
 		handler: getbalance,
+	},
+	{
+		method: 'post',
+		path: '/cost/debt/get-credit-list',
+		middleware: [isAuthenticated],
+		handler: getCreditList,
 	},
 	//#endregion
 ];

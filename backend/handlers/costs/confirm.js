@@ -12,11 +12,13 @@ module.exports = async (req, res) => {
 			if (!cost) {
 				throw new Error('Cost Not Found!');
 			}
+			if (cost.payedFor.findIndex(x => x.toString() == res.locals.user._id.toString()) == -1)
+				throw new Error('Cost does not include you.');
 
-			if (cost.confirmedBy.findIndex(x => x == res.locals.user._id) == -1)
+			if (cost.confirmedBy.findIndex(x => x.toString() == res.locals.user._id.toString()) == -1)
 				cost.confirmedBy.push(res.locals.user._id);
 			
-			if (cost.confirmedBy == cost.payedFor)
+			if (cost.confirmedBy.length == cost.payedFor.length)
 				cost.confirmed = true;
 			
 			cost.save();

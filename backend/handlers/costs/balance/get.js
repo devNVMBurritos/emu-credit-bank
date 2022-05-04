@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Cost = mongoose.model('cost');
 
 module.exports = async (req, res) => {
-	Cost.find().or([
+	Cost.find({confirmed: true}).or([
 		{ payedFor: res.locals.user._id },
 		{ payedBy: res.locals.user._id }
 	]).populate('payedBy').then( costs => {

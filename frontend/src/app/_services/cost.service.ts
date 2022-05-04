@@ -29,10 +29,26 @@ export class CostService {
       { headers: { Authorization: 'Bearer ' + loginToken}} )
   }
 
-  public GetUnconfirmedCosts(loginToken: string) {
-    return this.http.post<any>(
-      environment.APIURI + '/cost/create', 
+  public GetDebtorsAndCreditors(loginToken: string) {
+    return this.http.post<[{ user: User, debt: number}]>(
+      environment.APIURI + '/cost/debt/get-credit-list', 
       { },
       { headers: { Authorization: 'Bearer ' + loginToken}} )
+  }
+
+  public GetUnconfirmedCosts(loginToken: string) {
+    return this.http.post<{ _id: string, payedFor: User[], payedBy: User, cost: number}[]>(
+      environment.APIURI + '/cost/get-unconfirmed',
+      {},
+      { headers: { Authorization: 'Bearer ' + loginToken}}
+    );
+  }
+
+  public ConfirmCost(loginToken: string, costId: string) {
+    return this.http.post<string>(
+      environment.APIURI + '/cost/confirm',
+      { costId: costId },
+      { headers: { Authorization: 'Bearer ' + loginToken}}
+    )
   }
 }
