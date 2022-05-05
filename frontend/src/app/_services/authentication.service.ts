@@ -21,11 +21,34 @@ export class AuthenticationService {
     }
   }
 
+  public Register(username: string, email: string, password: string) {
+    return this.http.post<string>(
+      environment.APIURI + '/user/register',
+      {
+        username: username,
+        email: email,
+        password: password,
+      }
+    )
+  }
+
   public OneTapSingIn(idToken: string) {
     this.http.post<User>(
       environment.APIURI + '/user/login',
       null,
       { headers: {"X-Goog-IAP-JWT-Assertion": idToken}}
+    ).subscribe( user => {
+      localStorage.setItem('user', JSON.stringify(user))
+      this._user.next(user);
+      this._logedIn = true;
+      this.router.navigate(['overview']);
+    })
+  }
+
+  public SingIn(email: string, password: string) {
+    this.http.post<User>(
+      environment.APIURI + '/user/login',
+      { username: email, password: password },
     ).subscribe( user => {
       localStorage.setItem('user', JSON.stringify(user))
       this._user.next(user);

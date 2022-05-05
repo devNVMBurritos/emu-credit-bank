@@ -22,25 +22,29 @@ module.exports = async (req, res) => {
 				if (cost.payedBy._id.toString() == ownId) {
 					// ők az adósok. (nekem - nekik az adósságom)
 					cost.payedFor.forEach( user => {
-						const userId = user._id.toString();
-						if (!creditList[userId] && creditList[userId].debt == undefined)
-						{
-							creditList[userId] = {};
-							creditList[userId].user = user;
-							creditList[userId].debt = 0;
+						if (user._id.toString() != res.locals.user._id.toString()) {
+							const userId = user._id.toString();
+							if (!creditList[userId])
+							{
+								creditList[userId] = {};
+								creditList[userId].user = user;
+								creditList[userId].debt = 0;
+							}
+	
+							creditList[userId].debt += cost.cost / cost.payedFor.length;
 						}
-
-						creditList[userId].debt -= cost.cost / cost.payedBy.length;
 					});
 				} else {
 					// aki kifizette annak nagyobb az adósággom
 					const userId = cost.payedBy._id.toString();
-					if (!creditList[userId] && creditList[userId].debt == undefined)
+					if (!creditList[userId])
 					{
 						creditList[userId] = {};
 						creditList[userId].user = cost.payedBy;
 						creditList[userId].debt = 0;
 					}
+					creditList[userId].debt -= cost.cost / cost.payedFor.length;
+					
 				}
 				
 			});

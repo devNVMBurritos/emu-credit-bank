@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CostsComponent } from './costs/costs.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { CostsComponent } from './costs/costs.component';
     OverviewComponent,
     HomeComponent,
     ConnectionsComponent,
-    CostsComponent
+    CostsComponent,
+    TransactionsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
