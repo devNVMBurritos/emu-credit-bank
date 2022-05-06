@@ -33,5 +33,8 @@ module.exports = async (req, res) => {
 		if (!cost) {
 			throw new Error('Could not crate cost');
 		}
+	}).catch( err => {
+		res.status(400);
+		res.send(JSON.stringify(err.message));
 	});
 };

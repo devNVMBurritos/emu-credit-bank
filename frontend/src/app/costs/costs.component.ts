@@ -1,6 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
-import { EmailValidator, FormBuilder, FormGroup } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 import { CostService } from '../_services/cost.service';
@@ -15,17 +15,24 @@ export class CostsComponent implements OnInit {
   public FriendListPlusYou: User[] = []
   private _costUserList: User[] = [];
   public FormGroup: FormGroup;
-  public UnsubmittedCostList: { _id: string, payedFor: User[], payedBy: User, cost: number}[] = [];
+  public UnsubmittedCostList: {
+     _id: string, payedFor: User[],
+      payedBy: User, cost: number
+    }[] = [];
+
+  public InProcess: boolean = false;
+  public ErrorMessage!: string;
 
   constructor(
     private userService: UserService,
     private authService: AuthenticationService,
     private costService: CostService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cd: ChangeDetectorRef
   ) {
     this.FormGroup = formBuilder.group({
-      payedBy: [''],
-      cost: ['']
+      payedBy: ['', [ Validators.required]],
+      cost: ['', [Validators.required, Validators.min(0)]]
     });
 
     userService.FriendList.subscribe( data => {
@@ -62,21 +69,23 @@ export class CostsComponent implements OnInit {
   }
 
   public CreateCosts() {
-    console.log(this.FormGroup.controls.payedBy.value);
-    if (this.FormGroup.controls.payedBy.value)
-    this.costService.CreateCost(
-      this._costUserList, 
-      this.FormGroup.controls.payedBy.value, 
-      this.FormGroup.controls.cost.value,
-      this.authService.CurrentUser().loginToken || ''
-      ).subscribe( 
-        response => {
-          console.log('res', response);
-        },
-        error => {
-          console.log('err', error);
-        }
+    if (this.FormGroup.controls.payedBy.valid && this.FormGroup.controls.payedBy.valid) {
+      this.InProcess = true;
+
+      this.costService.CreateCost(
+        this._costUserList, 
+        this.FormGroup.controls.payedBy.value, 
+        this.FormGroup.controls.cost.value,
+        this.authService.CurrentUser().loginToken || ''
+        ).subscribe( 
+          response => {
+            this.InProcess = false;
+          },
+          error => {
+            console.log('err', error);
+          }
       ); 
+    } else this.ErrorMessage = 'Invalid Input!';
   }
   public ConfirmCost(costId: string) {
     this.costService.ConfirmCost(this.authService.CurrentUser().loginToken || '', costId)

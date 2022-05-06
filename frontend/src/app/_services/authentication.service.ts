@@ -46,14 +46,16 @@ export class AuthenticationService {
   }
 
   public SingIn(email: string, password: string) {
-    this.http.post<User>(
+    return this.http.post<User>(
       environment.APIURI + '/user/login',
-      { username: email, password: password },
+      { email: email, password: password },
     ).subscribe( user => {
       localStorage.setItem('user', JSON.stringify(user))
       this._user.next(user);
       this._logedIn = true;
       this.router.navigate(['overview']);
+    }, error => {
+      console.log(error);
     })
   }
 

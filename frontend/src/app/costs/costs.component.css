@@ -1,0 +1,8 @@
+.ng-invalid.ng-touched.form-control {
+  background-color: red;
+  color: white;
+}
+.ng-invalid.ng-touched.form-select {
+  background-color: red;
+  color: white;
+}

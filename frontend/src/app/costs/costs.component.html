@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Cost</label>
+    <label for="exampleInputPassword1" class="form-label danger">Cost</label>
     <input formControlName="cost" type="number" class="form-control" id="exampleInputPassword1">
   </div>
   <div class="mb-3">
@@ -22,7 +22,8 @@
     </select>
   </div>
   <div class="mx-auto col-sm-8 col-lg-5 py-3">
-    <button type="submit" class="col-12 btn btn-primary mb-3" (click)="CreateCosts()" >Create Cost</button>
+    <button [disabled]="InProcess" type="submit" class="col-12 btn btn-primary mb-3" (click)="CreateCosts()" >Create Cost</button>
+    <label *ngIf="ErrorMessage" class="alert">{{ErrorMessage}}</label>
   </div>
 </form>
 <div *ngFor="let cost of UnsubmittedCostList" class="bg-brown mx-auto col-lg-8 my-3 col-lg-5 py-3">

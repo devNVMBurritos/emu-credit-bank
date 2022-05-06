@@ -4,15 +4,21 @@
       Please login to our fully credible banking software 
       <img alt="kappa" class="map img-responsive" width="50px" height="50px" src="https://i.kym-cdn.com/photos/images/newsfeed/000/925/494/218.png_large"/>
     </h1>
-    <form class="px-4">
+    <form [formGroup]="form" class="px-4">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        <label class="form-label">Username</label>
+        <input formControlName="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="userHelp" class="form-text">Make sure it uniquely retarded.</div>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <label class="form-label">Email address</label>
+        <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else. Cuz noone cares.</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
+        <div id="passHelp" class="form-text">Don't worry we will hash your password. Its not like they can crack it anyways or anything ... BAKA!!</div>
       </div>
       <div class="mx-auto col-sm-8 col-lg-5 py-3">
         <button type="submit" class="col-12 btn btn-primary mb-3" (click)="Register()">Register</button>

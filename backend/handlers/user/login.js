@@ -50,6 +50,7 @@ module.exports = async (req, res) => {
 	if (!req.body.password) {
 		res.status(400);
 		res.send(JSON.stringify('password was not provided!'));
+		return;
 	}
 
 	User.findOne({ email : req.body.email	})
