@@ -9,11 +9,13 @@ const cors = require('cors');
 
 // Models
 require('./models/user/user');
-
+require('./models/user/connection/request');
+require('./models/cost/cost');
 // App setup
 dotenv.config();
-
 const app = express();
+// Cache externally fetched information for future invocations
+
 var corsOptions = { origin: process.env.CorsOrigins?process.env.CorsOrigins.split(','):process.env.CorsOrigin };
 app.use(cors(corsOptions));
 app.use(bodyParser.json());

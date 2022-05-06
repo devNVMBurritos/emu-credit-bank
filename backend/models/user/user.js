@@ -5,9 +5,8 @@ var UserSchema = new mongoose.Schema({
 	username: {
 		type: String,
 		lowercase: true,
-		unique: [true,'username is already taken'],
 		required: [true, 'can\'t be blank'],
-		match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
+		match: [/^[a-zA-Z0-9 ]+$/, 'is invalid'],
 		index: true
 	},
 	email: {
@@ -35,9 +34,6 @@ var UserSchema = new mongoose.Schema({
 		type: String,
 		enum: ['game-moderator', 'customer-support', 'customer'],
 		default: ['customer']
-	}],
-	reviews: [{
-		type:mongoose.Schema.Types.ObjectId, ref: 'review'
 	}],
 	loginToken: {type: String, required: false},
 });
