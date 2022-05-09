@@ -2,10 +2,13 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 var CostSchema = new mongoose.Schema({
-	payedFor: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: User,
-	}],
+	payedFor: {
+		type: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: User,
+		}],
+		validate: [arrayMin, 'You need to give at least one user that the cost was payed for!']
+	},
 	payedBy: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: User,
@@ -20,7 +23,11 @@ var CostSchema = new mongoose.Schema({
 	}],
 	confirmed: {
 		type: Boolean
-	}
+	},
 });
+
+function arrayMin(val) {
+	return val.length > 0;
+}
 
 mongoose.model('cost', CostSchema);

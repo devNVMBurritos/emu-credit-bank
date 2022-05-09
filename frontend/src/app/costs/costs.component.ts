@@ -80,9 +80,15 @@ export class CostsComponent implements OnInit {
         ).subscribe( 
           response => {
             this.InProcess = false;
+            this.costService.GetUnconfirmedCosts(this.authService.CurrentUser().loginToken || '')
+            .subscribe( costs => {
+              this.UnsubmittedCostList = costs;
+            })
           },
           error => {
-            console.log('err', error);
+            console.log(error);
+            this.ErrorMessage = error.error
+            this.InProcess = false;
           }
       ); 
     } else this.ErrorMessage = 'Invalid Input!';
@@ -90,7 +96,10 @@ export class CostsComponent implements OnInit {
   public ConfirmCost(costId: string) {
     this.costService.ConfirmCost(this.authService.CurrentUser().loginToken || '', costId)
       .subscribe( response => {
-        console.log(response);
+        this.costService.GetUnconfirmedCosts(this.authService.CurrentUser().loginToken || '')
+        .subscribe( costs => {
+          this.UnsubmittedCostList = costs;
+        })
       },
       err => {
         console.log(err);

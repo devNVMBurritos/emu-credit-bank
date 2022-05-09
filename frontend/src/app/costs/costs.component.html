@@ -23,7 +23,7 @@
   </div>
   <div class="mx-auto col-sm-8 col-lg-5 py-3">
     <button [disabled]="InProcess" type="submit" class="col-12 btn btn-primary mb-3" (click)="CreateCosts()" >Create Cost</button>
-    <label *ngIf="ErrorMessage" class="alert">{{ErrorMessage}}</label>
+    <label *ngIf="ErrorMessage">{{ErrorMessage}}</label>
   </div>
 </form>
 <div *ngFor="let cost of UnsubmittedCostList" class="bg-brown mx-auto col-lg-8 my-3 col-lg-5 py-3">

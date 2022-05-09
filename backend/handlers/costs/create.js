@@ -9,6 +9,13 @@ module.exports = async (req, res) => {
 		return;
 	}
 
+	if (req.body.payedFor.length == 0) {
+		res.status(400);
+		res.send(JSON.stringify('You need to give at least one user that the cost was payed for!'));
+		
+		return;
+	}
+
 	if (!req.body.payedBy) {
 		res.status(400);
 		res.send(JSON.stringify('payedBy field missing!'));
@@ -33,6 +40,8 @@ module.exports = async (req, res) => {
 		if (!cost) {
 			throw new Error('Could not crate cost');
 		}
+
+		res.send(JSON.stringify(cost));
 	}).catch( err => {
 		res.status(400);
 		res.send(JSON.stringify(err.message));
