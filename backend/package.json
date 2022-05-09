@@ -16,6 +16,7 @@
     "gcp-metadata": "^5.0.0",
     "google-auth-library": "^7.14.1",
     "mongoose": "^6.3.0",
+    "nodemon": "^2.0.16",
     "selfsigned": "^2.0.1"
   }
 }
