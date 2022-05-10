@@ -6,6 +6,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const https = require('https');
 const cors = require('cors');
+const fs = require('fs');
 
 // Models
 require('./models/user/user');
@@ -34,10 +35,13 @@ routes.forEach((route) => {
 // Server setup
 var server;
 if (process.env.Environment === 'PRODUCTION') {
-
 	var attrs = [{ name: 'commonName', value: process.env.ProductionDomain }];
-	var pems = selfsigned.generate(attrs, { days: 365, keySize: 2048, algorithm: 'sha256'});
-	server = https.createServer({key: pems.privateKey, cert: pems.cert }, app).listen(process.env.PORT || 3306, () => {
+	var pems;
+	if (fs.existsSync(process.env.CertPath) && fs.existsSync(process.env.PrivateKeyPath)) {	
+		pems = { private: fs.readFileSync(process.env.PrivateKeyPath), cert: fs.readFileSync(process.env.CertPath) }; }
+	else  { pems = selfsigned.generate(attrs, { days: 365, keySize: 2048, algorithm: 'SHA256'}); }
+
+	server = https.createServer({key: pems.private, cert: pems.cert }, app).listen(process.env.PORT || 3306, () => {
 		console.log('server is running on:' + server.address().port + ' in PRODUCTION mode!');
 	});
 } else {
