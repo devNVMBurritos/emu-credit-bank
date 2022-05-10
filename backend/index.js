@@ -33,7 +33,6 @@ routes.forEach((route) => {
 
 // Server setup
 var server;
-console.log(process.env.Environment);
 if (process.env.Environment === 'PRODUCTION') {
 
 	var attrs = [{ name: 'commonName', value: process.env.ProductionDomain }];
