@@ -36,9 +36,9 @@ var server;
 
 if (process.env.envionment === 'PRODUCTION') {
 	var attrs = [{ name: 'commonName', value: process.env.ProductionDomain }];
-	var pems = selfsigned.generate(attrs, { days: 365 });
+	var pems = selfsigned.generate(attrs, { days: 365, keySize: 2048, algorithm: 'sha256'});
 	server = https.createServer({key: pems.privateKey, cert: pems.cert }, app).listen(process.env.PORT || 3306, () => {
-		console.log('server is running on:' + server.address().port);
+		console.log('server is running on:' + server.address().port + ' in PRODUCTION mode!');
 	});
 } else {
 	server = app.listen(process.env.PORT || 3306, () => {
