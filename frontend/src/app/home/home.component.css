@@ -1,0 +1,29 @@
+.carousel {
+  max-height: 750px  !important;
+}
+
+.carousel-item {
+  max-height: 750px  !important;
+  text-align: center;
+}
+p {
+  font-size: x-large !important;
+}
+.text-snippet:nth-child(2n){
+  padding-top: 100px;
+  text-align: right;
+}
+.text-snippet:nth-child(2n) > p{
+  margin-left: auto;
+}
+.carousel-item > img {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.text-snipet-container {
+  padding: 20px;
+  background-color: rgba(50, 50, 50, 0.2);
+}
+.carousel-container {
+  min-height: 750px;
+}
