@@ -33,8 +33,9 @@ routes.forEach((route) => {
 
 // Server setup
 var server;
+console.log(process.env.Environment);
+if (process.env.Environment === 'PRODUCTION') {
 
-if (process.env.Enviornment === 'PRODUCTION') {
 	var attrs = [{ name: 'commonName', value: process.env.ProductionDomain }];
 	var pems = selfsigned.generate(attrs, { days: 365, keySize: 2048, algorithm: 'sha256'});
 	server = https.createServer({key: pems.privateKey, cert: pems.cert }, app).listen(process.env.PORT || 3306, () => {
