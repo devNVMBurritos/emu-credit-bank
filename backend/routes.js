@@ -2,19 +2,25 @@
 const isAuthenticated = require('./middleware/authentiuacation/is-authenticated');
 
 // Handlers
+
+//User
 const login = require('./handlers/user/login');
 const register = require('./handlers/user/register');
-const search = require('./handlers/user/search');
+const search = require('./handlers/user/searches/by-username-or-email-user-search');
 
-const request = require('./handlers/user/connection/request');
-const list = require('./handlers/user/connection/list');
+//Connection
+const request = require('./handlers/connection/create');
+const list = require('./handlers/connection/lists/all-connection-list');
 
+//Consts
 const createCost = require('./handlers/costs/create');
-const getUnconfirmedCost = require('./handlers/costs/get-unconfirmed');
 const confirm = require('./handlers/costs/confirm');
 
-const getbalance = require('./handlers/costs/balance/get');
-const getCreditList = require('./handlers/costs/debt/get-credit-list');
+const getUnconfirmedCost = require('./handlers/costs/lists/unconfirmed-cost-list');
+const getCreditList = require('./handlers/costs/lists/all-credit-cost-list');
+
+const getbalance = require('./handlers/costs/calculations/user-balance-cost-calculation');
+
 
 module.exports =  [
 	//#region User paths
