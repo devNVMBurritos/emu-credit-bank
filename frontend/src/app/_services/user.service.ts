@@ -19,7 +19,7 @@ export class UserService {
   }
   public GetRequestLists() {
     this.http.post<ContactRequest[]>(
-      environment.APIURI + '/user/connection/list',
+      environment.APIURI + '/connection/lists/all-connection-list',
       {},
       { headers: { Authorization: 'Bearer ' +  this.authService.CurrentUser().loginToken || ''}}
     ).subscribe( contactRequests => {
@@ -64,7 +64,7 @@ export class UserService {
 
   public SearchForUser(username: string, loginToken: string) {
     return this.http.post<User[]>(
-      environment.APIURI + '/user/search',
+      environment.APIURI + '/user/searches/by-username-or-email-user-search',
       { username: username },
       { headers: { Authorization: 'Bearer ' + loginToken }}
     )
@@ -72,7 +72,7 @@ export class UserService {
 
   public SendRequest(requested: string, loginToken: string) {
     return this.http.post<string>(
-      environment.APIURI + '/user/connection/request',
+      environment.APIURI + '/connection/create',
       { requested:  requested },
       { headers: { Authorization: 'Bearer ' + loginToken }}
     )

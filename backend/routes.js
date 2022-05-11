@@ -6,20 +6,20 @@ const isAuthenticated = require('./middleware/authentiuacation/is-authenticated'
 //User
 const login = require('./handlers/user/login');
 const register = require('./handlers/user/register');
-const search = require('./handlers/user/searches/by-username-or-email-user-search');
+const searchUsersByUsernameOrEmail = require('./handlers/user/searches/by-username-or-email-user-search');
 
 //Connection
-const request = require('./handlers/connection/create');
-const list = require('./handlers/connection/lists/all-connection-list');
+const createConnection = require('./handlers/connection/create');
+const listAllConnection = require('./handlers/connection/lists/all-connection-list');
 
 //Consts
-const createCost = require('./handlers/costs/create');
-const confirm = require('./handlers/costs/confirm');
+const createCost = require('./handlers/cost/create');
+const confirmCost = require('./handlers/cost/confirm');
 
-const getUnconfirmedCost = require('./handlers/costs/lists/unconfirmed-cost-list');
-const getCreditList = require('./handlers/costs/lists/all-credit-cost-list');
+const listUnconfirmedCosts = require('./handlers/cost/lists/unconfirmed-cost-list');
+const listAllCreditCosts = require('./handlers/cost/lists/all-credit-cost-list');
 
-const getbalance = require('./handlers/costs/calculations/user-balance-cost-calculation');
+const calculateUserBalanceCost = require('./handlers/cost/calculations/user-balance-cost-calculation');
 
 
 module.exports =  [
@@ -38,26 +38,26 @@ module.exports =  [
 	},
 	{
 		method: 'post',
-		path: '/user/search',
+		path: '/user/searches/by-username-or-email-user-search',
 		middleware: [isAuthenticated],
-		handler: search,
+		handler: searchUsersByUsernameOrEmail,
 	},
 	//#endregion
 	//#region Connection Paths
 	{
 		method: 'post',
-		path: '/user/connection/request',
+		path: '/connection/create',
 		middleware: [isAuthenticated],
-		handler: request,
+		handler: createConnection,
 	},
 	{
 		method: 'post',
-		path: '/user/connection/list',
+		path: '/connection/lists/all-connection-list',
 		middleware: [isAuthenticated],
-		handler: list,
+		handler: listAllConnection,
 	},
 	//#endregion
-	//#region Cost Paths
+	//#region Cost Paths 
 	{
 		method: 'post',
 		path: '/cost/create',
@@ -66,29 +66,27 @@ module.exports =  [
 	},
 	{
 		method: 'post',
-		path: '/cost/get-unconfirmed',
+		path: '/cost/lists/unconfirmed-cost-list',
 		middleware: [isAuthenticated],
-		handler: getUnconfirmedCost,
+		handler: listUnconfirmedCosts,
 	},
 	{
 		method: 'post',
 		path: '/cost/confirm',
 		middleware: [isAuthenticated],
-		handler: confirm,
-	},
-	//#endregion
-	//#region Balance Paths
-	{
-		method: 'post',
-		path: '/cost/balance/get',
-		middleware: [isAuthenticated],
-		handler: getbalance,
+		handler: confirmCost,
 	},
 	{
 		method: 'post',
-		path: '/cost/debt/get-credit-list',
+		path: '/cost/calculations/user-balance-cost-calculation',
 		middleware: [isAuthenticated],
-		handler: getCreditList,
+		handler: calculateUserBalanceCost,
+	},
+	{
+		method: 'post',
+		path: '/cost/lists/all-credit-cost-list',
+		middleware: [isAuthenticated],
+		handler: listAllCreditCosts,
 	},
 	//#endregion
 ];

@@ -12,7 +12,7 @@ export class CostService {
 
   public GetBalance(loginToken: string) {
     return this.http.post<number>(
-      environment.APIURI + '/cost/balance/get',
+      environment.APIURI + '/cost/calculations/user-balance-cost-calculation',
       {},
       { headers: { Authorization: 'Bearer ' + loginToken}} 
     );
@@ -38,7 +38,7 @@ export class CostService {
 
   public GetUnconfirmedCosts(loginToken: string) {
     return this.http.post<{ _id: string, payedFor: User[], payedBy: User, cost: number}[]>(
-      environment.APIURI + '/cost/get-unconfirmed',
+      environment.APIURI + '/cost/lists/unconfirmed-cost-list',
       {},
       { headers: { Authorization: 'Bearer ' + loginToken}}
     );
