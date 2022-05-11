@@ -18,8 +18,7 @@ module.exports = async (req, res) => {
 	})
 		.then((newUser) => {
 			if (!newUser) {
-				res.status(400);
-				res.send(JSON.stringify('Could not create the '));
+				throw new Error('Could not create the user');
 			}
 
 			newUser.roles.push('customer');
@@ -27,6 +26,7 @@ module.exports = async (req, res) => {
 			res.send(JSON.stringify(newUser));
 		})
 		.catch(err => {
+			res.status(400);
 			res.send(JSON.stringify(err));
 		});
 
