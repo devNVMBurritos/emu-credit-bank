@@ -20,8 +20,14 @@
         <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
         <div id="passHelp" class="form-text">Don't worry we will hash your password. Its not like they can crack it anyways or anything ... BAKA!!</div>
       </div>
+      <div *ngIf="!form.controls.password.valid && form.controls.password.touched">
+        <label class="text-light">You need at least 8 characters, one uppercase, one lowercase and a number.</label>
+      </div>
       <div class="mx-auto col-sm-8 col-lg-5 py-3">
         <button type="submit" class="col-12 btn btn-primary mb-3" (click)="Register()">Register</button>
+      </div>
+      <div *ngIf="error">
+        <label class="text-light">{{error}}</label>
       </div>
     </form>
   </div>
