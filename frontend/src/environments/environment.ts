@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  APIURI: 'https://emu.credit:4201'
+  APIURI: 'https://localhost:4201'
 };
 
 /*

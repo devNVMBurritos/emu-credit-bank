@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  APIURI: 'http://emu.credit:4201'
 };
