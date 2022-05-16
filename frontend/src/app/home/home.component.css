@@ -1,9 +1,9 @@
 .carousel {
-  max-height: 750px  !important;
+  max-height: 60%  !important;
 }
 
 .carousel-item {
-  max-height: 750px  !important;
+  max-height: 60%  !important;
   text-align: center;
 }
 p {
@@ -24,6 +24,16 @@ p {
   padding: 20px;
   background-color: rgba(50, 50, 50, 0.2);
 }
-.carousel-container {
-  min-height: 750px;
+
+.carousel-inner-container {
+  width: 64vw;
+  height: 36vw;
+  margin-bottom: 18vw!important;
+}
+
+@media (max-width: 1000px) {
+  .carousel-inner-container {
+    width: 100vw;
+    height: 56vw;
+  }
 }
